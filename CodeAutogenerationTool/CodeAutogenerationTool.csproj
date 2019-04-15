@@ -58,7 +58,8 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>programmer_128px_1227804_easyicon.net.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EasyFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -135,7 +136,6 @@
     <Content Include="Images\help.png" />
     <Content Include="Images\link.png" />
     <Content Include="Images\unlink.png" />
-    <Content Include="programmer_128px_1227804_easyicon.net.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
