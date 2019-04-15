@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using EasyFramework.Attr;
+using EasyFramework.Core.Enum;
+
+namespace CodeAutogenerationTool.Helper
+{
+    /// <summary>
+    /// MS Sql代码自动生成
+    /// </summary>
+    class MSSqlAutoGenerationHelper
+    {
+        public static string path = "";//生成代码路径
+        public static string nameSpace = "";//命名空间
+
+        /// <summary>
+        /// 生成MVC中的MC
+        /// </summary>
+        /// <param name="modelProperties">类字段信息</param>
+        /// <param name="modelAttribute">表信息</param>
+        /// <returns>返回true表示生成成功, 否则失败</returns>
+        public static bool GenerateMC(List<ModelProperty> modelProperties, ModelAttribute modelAttribute)
+        {
+            return GenerateModel(modelProperties, modelAttribute);
+        }
+
+        /// <summary>
+        /// 生成Model
+        /// </summary>
+        /// <param name="modelProperties">类字段信息</param>
+        /// <param name="modelAttribute">表信息</param>
+        /// <returns>返回true表示生成成功, 否则失败</returns>
+        public static bool GenerateModel(List<ModelProperty> modelProperties, ModelAttribute modelAttribute)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("using System;\n");
+            sb.Append("using EasyFramework.Attr;\n");
+            sb.Append("using EasyFramework.Models;\n");
+            sb.Append(string.Format("namespace {0}.Models\n", nameSpace));
+            sb.Append("{\n");
+            sb.Append(string.Format("    [Model(\"{0}\", \"{1}\")]\n", modelAttribute.TableName, modelAttribute.PrimaryKey));
+            sb.Append(string.Format("    class {0} : BaseModel\n", modelAttribute.TableName));
+            sb.Append("    {\n");
+            foreach (ModelProperty modelProperty in modelProperties)
+            {
+                string type = "";
+                string lengthInfo = "";
+                switch (MSDBType.GetTypeBySqlTypeName(modelProperty.ColType).Name)
+                {
+                    case "String":
+                        type = "string";
+                        lengthInfo = string.Format(", MinLength = {0}, MaxLength = {1}", modelProperty.MinLength, modelProperty.MaxLength);
+                        break;
+                    case "Int32":
+                        type = "int";
+                        break;
+                    case "Boolean":
+                        type = "bool";
+                        break;
+                    case "DateTime":
+                        type = "DateTime";
+                        break;
+                    case "Double":
+                        type = "double";
+                        break;
+                }
+                sb.Append(string.Format("        [ModelProperty(\"{0}\", \"{1}\"{2})]\n", modelProperty.ColName, modelProperty.ColType, lengthInfo));
+                sb.Append(string.Format("        public {0} {1} {2}\n\n", type, modelProperty.ColName, "{ get; set; }"));
+            }
+            sb.Append("    }\n");
+            sb.Append("}");
+            try
+            {
+                FileStream fs = new FileStream(string.Format("{0}/Models/{1}.cs", path, modelAttribute.TableName), FileMode.Create);
+                byte[] bytes = Encoding.UTF8.GetBytes(sb.ToString());
+                fs.Write(bytes, 0, bytes.Length);
+                fs.Close();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 生成三层中的DAL
+        /// </summary>
+        /// <param name="modelProperties">类字段信息</param>
+        /// <param name="modelAttribute">表信息</param>
+        /// <returns>返回true表示生成成功, 否则失败</returns>
+        public static bool GenerateDAL(List<ModelProperty> modelProperties, ModelAttribute modelAttribute)
+        {
+            return false;
+        }
+    }
+}

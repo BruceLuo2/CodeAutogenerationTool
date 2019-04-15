@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace CodeAutogenerationTool.Helper
+{
+    /// <summary>
+    /// MS Sql代码自动生成
+    /// </summary>
+    class MSSqlAutoGenerationHelper
+    {
+        public static string path = "";//生成代码路径
+        public static string nameSpace = "";//命名空间
+
+        public static bool GenerateMC(string[] names)
+        {
+            IsBaseModel();
+            IsBaseController();
+            return false;
+        }
+
+        public static bool GenerateModel(string[] names)
+        {
+            IsBaseModel();
+            return false;
+        }
+
+        public static bool GenerateDAL(string[] names)
+        {
+            IsBaseDAL();
+            return false;
+        }
+
+        /// <summary>
+        /// 判断基类模型是否存在
+        /// </summary>
+        private static void IsBaseModel()
+        {
+            if (!File.Exists(path + "\\BaseModel.cs"))
+            {
+                //基类Model不存在 创建并写入数据
+                FileStream fileStream = new FileStream(path + "\\BaseModel.cs", FileMode.Create);
+
+            }
+        }
+
+        /// <summary>
+        /// 判断基类控制器是否存在
+        /// </summary>
+        private static void IsBaseController()
+        {
+
+        }
+
+        /// <summary>
+        /// 判断基类DAL是否存在
+        /// </summary>
+        private static void IsBaseDAL()
+        {
+
+        }
+    }
+}

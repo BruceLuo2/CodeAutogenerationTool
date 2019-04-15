@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <!--添加自定义节点：log4net  type：解析类名，程序集名(log4net.dll)-->
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net"/>
+  </configSections>
+
+  <log4net>
+    <!-- 正常信息输出 -->
+    <appender name="Log4Net_Info" type="log4net.Appender.RollingFileAppender">
+      <!--定义文件存放位置-->
+      <file value="App_Data/Logs/"/>
+      <!--是否追加到文件,默认为true，通常无需设置-->
+      <appendToFile value="true"/>
+      <RollingStyle value="Date"/>
+      <!--日期的格式，每天换一个文件记录，如不设置则永远只记录一天的日志，需设置-->
+      <DatePattern value="yyyy-MM-dd.'log'" />
+      <!-- 最大文件大小 -->
+      <MaximumFileSize value="10MB" />
+      <!--日志文件名是否为静态-->
+      <StaticLogFileName value="false"/>
+      <!--多线程时采用最小锁定-->
+      <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+      <!--布局（向用户显示最后经过格式化的输出信息）-->
+      <layout type="log4net.Layout.PatternLayout">
+        <!--
+           %m(message):输出的日志消息，如ILog.Debug(…)输出的一条消息 
+           %n(new line):换行 
+           %d(datetime):输出当前语句运行的时刻 
+           %r(run time):输出程序从运行到执行到当前语句时消耗的毫秒数 
+           %t(thread id):当前语句所在的线程ID 
+           %p(priority): 日志的当前优先级别，即DEBUG、INFO、WARN…等 
+           %c:记录日志事件的Logger对象的名字。
+           %L：输出语句所在的行号 
+           %F：输出语句所在的文件名 
+           %-数字：表示该项的最小长度，如果不够，则用空格填充
+           %M 输出方法名 比较损耗性能
+          -->
+        <!--正文-->
+        <!-- 日志开头 -->
+        <!--<Header value="[Header]&#13;&#10;"/>-->
+        <!-- 日志结尾 -->
+        <!--<Footer value="[Footer]&#13;&#10;"/>-->
+        <ConversionPattern value="记录时间：%d{HH:mm:ss,fff} 线程ID : [%t] 类：%c - 描述：%m%n"  />
+      </layout>
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <levelMin value="INFO" />
+      </filter>
+    </appender>
+
+    <!-- 错误信息输出 -->
+    <appender name="Log4Net_Error" type="log4net.Appender.RollingFileAppender">
+      <file value="App_Data/Logs/"/>
+      <appendToFile value="true"/>
+      <RollingStyle value="Date"/>
+      <DatePattern value="yyyy-MM-dd.'log'" />
+      <StaticLogFileName value="false"/>
+      <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+      <layout type="log4net.Layout.PatternLayout">
+        <!--正文-->
+        <ConversionPattern value="记录时间：%d{HH:mm:ss,fff} 线程ID : [%t] 出错类：%c - 错误描述：%m%n"  />
+      </layout>
+      <filter type="log4net.Filter.LevelRangeFilter">
+        <levelMin value="WARN" />
+      </filter>
+    </appender>
+
+    <!-- 定义日志输出的媒介(方式) -->
+    <root>
+      <!--控制级别，由低到高: ALL|DEBUG|INFO|WARN|ERROR|FATAL|OFF-->
+      <level value="ALL"/>
+      <appender-ref ref="Log4Net_Info" />
+      <appender-ref ref="Log4Net_Error" />
+    </root>
+
+  </log4net>
+</configuration>

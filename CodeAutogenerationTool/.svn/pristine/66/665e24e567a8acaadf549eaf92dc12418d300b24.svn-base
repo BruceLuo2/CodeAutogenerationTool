@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using EasyFramework;
+using EasyFramework.Attr;
+using EasyFramework.Models;
+
+namespace CodeAutogenerationTool.Models
+{
+    [Model("LBWNB","UserId")]
+    class Test : BaseModel
+    {
+        [ModelProperty("UserId","int")]
+        public int UserId { get; set; }
+
+        [ModelProperty("UserId", "varchar")]
+        public string User { get; set; }
+    }
+}

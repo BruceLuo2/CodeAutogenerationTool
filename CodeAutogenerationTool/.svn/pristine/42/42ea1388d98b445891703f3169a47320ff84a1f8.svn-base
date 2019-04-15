@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <add key="Server.Type" value="Microsoft SQL Server" />
+    <add key="Server.Ip" value="114.116.143.152" />
+    <add key="Server.UserName" value="sa" />
+    <add key="Server.Pwd" value="luoqihang123" />
+    <add key="Server.DataBaseName" value="Test" />
+    <add key="Server.NameSpace" value="Test" />
+    <add key="Server.Path" value="C:\Users\Administrator\source\repos\WebApplication1\WebApplication1" />
+  </appSettings>
+</configuration>
